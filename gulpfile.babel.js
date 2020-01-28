@@ -2,7 +2,6 @@ import { argv } from 'yargs';
 
 import gulp from 'gulp';
 import autoprefixer from 'gulp-autoprefixer';
-import babelify from 'babelify';
 import browser from 'browser-sync';
 import browserify from 'browserify';
 import bump from 'gulp-bump';
@@ -12,16 +11,12 @@ import del from 'del';
 import dotenv from 'dotenv';
 import es from 'event-stream';
 import eslint from 'gulp-eslint';
-import folders from 'gulp-folders';
 import glob from 'glob';
-import image from 'gulp-image';
-import path from 'path';
 import pkg from './package.json';
 import rename from 'gulp-rename';
 import sass from 'gulp-sass';
 import sasslint from 'gulp-sass-lint';
 import source from 'vinyl-source-stream';
-import sprite from 'gulp.spritesmith';
 import uglify from 'gulp-uglify';
 
 browser.create();

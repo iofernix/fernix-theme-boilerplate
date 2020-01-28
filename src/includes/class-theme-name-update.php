@@ -125,23 +125,23 @@ class Theme_Name_Update {
       return $transient;
   }
 
-  /**
-   * Calls the update server to get the information for the
-   * current theme version.
-   *
-   * @return object|bool   The theme data, or false if call fails.
-   */
-  public function get_info() {
+    /**
+     * Calls the update server to get the information for the
+     * current theme version.
+     *
+     * @return object|bool   The theme data, or false if call fails.
+     */
+    public function get_info() {
 
-      $info = $this->call_api(
-          'update',
-          array(
-							'email' => '',
-              'license' => ''
-          )
-      );
+        $info = $this->call_api(
+            'update',
+            array(
+		        'email' => '',
+                'license' => ''
+            )
+        );
 
-      return $info;
+        return $info;
 
   }
 
