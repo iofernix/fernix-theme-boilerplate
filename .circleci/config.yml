@@ -40,7 +40,7 @@ jobs:
                 key: v1-dependencies-{{ checksum "package.json" }}
 
     deploy:
-        executor: fernix-executor
+        executor: fnx
 
         steps:
             - checkout
