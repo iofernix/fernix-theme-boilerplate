@@ -1,0 +1,107 @@
+version: 2.1
+executors:
+    fnx:
+        docker:
+            - image: circleci/node:10.16
+        working_directory: ~/fernix-theme-boilerplate
+
+jobs:
+    build:
+        executor: fnx
+
+        steps:
+            - checkout
+
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-
+
+            - run:
+                name: Installing global dependencies
+                command: sudo npm install -g gulp-cli
+
+            - run:
+                name: Installing local dependencies
+                command: npm install
+
+            - run:
+                name: Building Theme
+                command: gulp theme:build
+
+            - persist_to_workspace:
+                root: ~/fernix-theme-boilerplate
+                paths:
+                    - build
+
+            - save_cache:
+                paths:
+                    - node_modules
+                    key: v1-dependencies-{{ checksum "package.json" }}
+
+    deploy:
+        executor: fernix-executor
+
+        steps:
+            - checkout
+
+            - run:
+                name: Installing global dependencies
+                command: sudo npm install -g gulp-cli
+
+            - attach_workspace:
+                at: ~/fernix-theme-boilerplate
+
+            - add_ssh_keys:
+                fingerprints:
+                    - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
+
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-
+
+            - run:
+                name: Setup Environment Variables
+                command: |
+                    echo 'export USER_EMAIL="$(git log --format='%ae' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+                    echo 'export USER_NAME="$(git log --format='%an' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+                    echo 'export COMMIT_BUILD_NUM="$(git log --format='%h' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+                    echo 'export COMMIT_MESSAGE="$(git log --format='%s' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+
+            - run:
+                name: Cloning WP Site
+                command: git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
+
+            - run:
+                name:  Deploying Theme
+                command: gulp theme:deploy --path ./release
+
+            - run:
+                name: Pushing updates to stagging
+                command: |
+                    cd  ./release
+                    git add --all
+                    git config user.email "${USER_EMAIL}"
+                    git config user.name "${USER_NAME}"
+                    git diff-index --quiet HEAD || git commit -m "CircleCI Auto-Deploy
+                    Build: ${COMMIT_BUILD_NUM}
+                    Message: ${COMMIT_MESSAGE}"
+                    git push origin develop
+
+workflows:
+    version: 2
+    build_and_deploy:
+        jobs:
+            - build:
+                filters:
+                    branches:
+                        only:
+                            - develop
+                            - /feature\/.*/
+            - deploy:
+                requires:
+                    - build
+                filters:
+                    branches:
+                        only: develop
