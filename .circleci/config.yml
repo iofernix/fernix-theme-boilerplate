@@ -121,7 +121,7 @@ jobs:
                     git config user.name "${USER_NAME}"
                     git checkout release/${CIRCLE_TAG}
                     git checkout master
-                    git merge release/${CIRCLE_TAG} --commit --no-ff
+                    git merge release/${CIRCLE_TAG} --no-ff --continue
                     git tag ${CIRCLE_TAG}
                     git branch -d release/${CIRCLE_TAG}
 
