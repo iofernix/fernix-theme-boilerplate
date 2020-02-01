@@ -108,7 +108,6 @@ jobs:
                 command: |
                     echo 'export USER_EMAIL="$(git log --format='%ae' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
                     echo 'export USER_NAME="$(git log --format='%an' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
-                    echo 'export COMMIT_MESSAGE="$(git log --format='%s' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
 
             - run:
                 name: Cloning WP Site
@@ -120,13 +119,9 @@ jobs:
                     cd  ./release
                     git config user.email "${USER_EMAIL}"
                     git config user.name "${USER_NAME}"
-                    git checkout release/${CIRCLE_TAG}
                     git checkout master
-                    # git merge release/${CIRCLE_TAG} --no-ff
-                    # git commit
-                    # git tag ${CIRCLE_TAG}
-                    # git branch -d release/${CIRCLE_TAG}
-                    # git push origin master ${CIRCLE_TAG}
+                    git tag ${CIRCLE_TAG}
+                    git push origin ${CIRCLE_TAG}
 
 workflows:
     version: 2
@@ -136,6 +131,7 @@ workflows:
                 filters:
                     branches:
                         only:
+                            - master
                             - develop
                             - /feature\/.*/
                             - /^release\/v.*/
@@ -145,6 +141,7 @@ workflows:
                 filters:
                     branches:
                         only:
+                            - master
                             - develop
                             - /^release\/v.*/
     release:
