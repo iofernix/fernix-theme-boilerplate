@@ -71,11 +71,15 @@ jobs:
 
             - run:
                 name: Cloning WP Site
-                command: git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
+                command: |
+                    git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
+                    cd ./release
+                    git checkout -b ${CIRCLE_BRANCH}
 
             - run:
                 name:  Deploying Theme
-                command: gulp theme:deploy --path ./release
+                command: |
+                    gulp theme:deploy --path ./release
 
             - run:
                 name: Pushing updates to stagging
