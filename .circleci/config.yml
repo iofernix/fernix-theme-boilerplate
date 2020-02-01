@@ -108,6 +108,7 @@ jobs:
                 command: |
                     echo 'export USER_EMAIL="$(git log --format='%ae' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
                     echo 'export USER_NAME="$(git log --format='%an' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+                    echo 'export COMMIT_MESSAGE="$(git log --format='%s' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
 
             - run:
                 name: Cloning WP Site
@@ -122,7 +123,7 @@ jobs:
                     git checkout release/${CIRCLE_TAG}
                     git checkout master
                     git merge release/${CIRCLE_TAG} --no-ff
-                    git merge --continue
+                    git commit
                     git tag ${CIRCLE_TAG}
                     git branch -d release/${CIRCLE_TAG}
                     git push origin master ${CIRCLE_TAG}
