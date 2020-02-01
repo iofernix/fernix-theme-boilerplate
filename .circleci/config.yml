@@ -30,7 +30,7 @@ jobs:
                 command: gulp theme:build --minify
 
             - persist_to_workspace:
-                root: $CIRCLE_WORKING_DIRECTORY
+                root: ~/fernix-theme-boilerplate
                 paths:
                     - build
 
@@ -50,7 +50,7 @@ jobs:
                 command: sudo npm install -g gulp-cli
 
             - attach_workspace:
-                at: $CIRCLE_WORKING_DIRECTORY
+                at: ~/fernix-theme-boilerplate
 
             - add_ssh_keys:
                 fingerprints:
@@ -98,7 +98,7 @@ jobs:
                 command: sudo npm install -g gulp-cli
 
             - attach_workspace:
-                at: $CIRCLE_WORKING_DIRECTORY
+                at: ~/fernix-theme-boilerplate
 
             - add_ssh_keys:
                 fingerprints:
