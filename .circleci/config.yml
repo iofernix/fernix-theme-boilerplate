@@ -122,11 +122,11 @@ jobs:
                     git config user.name "${USER_NAME}"
                     git checkout release/${CIRCLE_TAG}
                     git checkout master
-                    git merge release/${CIRCLE_TAG} --no-ff
-                    git commit
-                    git tag ${CIRCLE_TAG}
-                    git branch -d release/${CIRCLE_TAG}
-                    git push origin master ${CIRCLE_TAG}
+                    # git merge release/${CIRCLE_TAG} --no-ff
+                    # git commit
+                    # git tag ${CIRCLE_TAG}
+                    # git branch -d release/${CIRCLE_TAG}
+                    # git push origin master ${CIRCLE_TAG}
 
 workflows:
     version: 2
