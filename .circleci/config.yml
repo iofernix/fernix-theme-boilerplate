@@ -74,7 +74,7 @@ jobs:
                 command: |
                     git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
                     cd ./release
-                    git checkout -b ${CIRCLE_BRANCH}
+                    git checkout -B ${CIRCLE_BRANCH}
 
             - run:
                 name:  Deploying Theme
@@ -97,6 +97,8 @@ jobs:
         executor: fnx
 
         steps:
+            - checkout
+
             - run:
                 name: Installing global dependencies
                 command: sudo npm install -g gulp-cli
