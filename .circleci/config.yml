@@ -45,6 +45,8 @@ jobs:
         executor: fnx
 
         steps:
+            - checkout
+            
             - run:
                 name: Installing global dependencies
                 command: sudo npm install -g gulp-cli
