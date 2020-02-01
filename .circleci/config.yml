@@ -33,6 +33,7 @@ jobs:
                 root: ~/fernix-theme-boilerplate
                 paths:
                     - build
+                    - package.json
 
             - save_cache:
                 paths:
