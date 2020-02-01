@@ -32,6 +32,7 @@ jobs:
             - persist_to_workspace:
                 root: ~/fernix-theme-boilerplate
                 paths:
+                    - .git
                     - build
                     - package.json
 

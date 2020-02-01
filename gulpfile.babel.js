@@ -204,7 +204,7 @@ gulp.task('theme:build', (done) => {
 gulp.task('theme:deploy', () => {
   let path = argv.path || dist_path;
 
-  del.sync(path + '/*', { force: true });
+  del.sync([path + '/*', '!' + path + '/.github/workflows'], { force: true });
 
   return gulp.src(build_path + '/**/*')
     .pipe(gulp.dest(path))
