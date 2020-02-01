@@ -131,7 +131,6 @@ workflows:
                 filters:
                     branches:
                         only:
-                            - master
                             - develop
                             - /feature\/.*/
                             - /^release\/v.*/
@@ -141,12 +140,25 @@ workflows:
                 filters:
                     branches:
                         only:
-                            - master
                             - develop
                             - /^release\/v.*/
     release:
         jobs:
+            - build:
+                filters:
+                    branches:
+                        only:
+                            - master
+            - deploy:
+                requires:
+                    - build
+                filters:
+                    branches:
+                        only:
+                            - master
             - release:
+                requires:
+                    - deploy
                 filters:
                     tags:
                         only: /v.*/
