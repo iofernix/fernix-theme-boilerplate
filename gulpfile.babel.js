@@ -117,29 +117,19 @@ gulp.task('lint:css', () =>
 );
 gulp.task('lint', gulp.series('lint:css', 'lint:js'));
 
-/* Release */
+/* Minify */
 /* ======================================================== */
-gulp.task('release:php', gulp.series('build:php',
-  () => gulp.src(build_path + '/**/*.php')
-        .pipe(gulp.dest(dist_path))
-));
-gulp.task('release:js', gulp.series('build:js',
-  () => gulp.src(build_path + '/scripts/**/*.js')
+gulp.task('minify:js', () =>
+    gulp.src(build_path + '/scripts/**/*.js')
         .pipe(uglify())
-        .pipe(rename({ extname: '.min.js' }))
-        .pipe(gulp.dest(dist_path  + '/scripts'))
-));
-gulp.task('release:images', gulp.series('copy:images',
-  () => gulp.src(build_path + '/**/*.{jpg,png,gif,svg}')
-        .pipe(gulp.dest(dist_path))
-));
-gulp.task('release:css', gulp.series('build:css',
-  () => gulp.src(build_path + '/**/*.css')
+        .pipe(gulp.dest(build_path  + '/scripts'))
+);
+gulp.task('minify:css', () =>
+    gulp.src(build_path + '/**/*.css')
         .pipe(cleancss())
-        .pipe(gulp.dest(dist_path))
-));
-gulp.task('release:clean', () => del(dist_path, { force: true }));
-gulp.task('release', gulp.series('release:clean', 'release:css', 'release:images', 'release:js', 'release:php'));
+        .pipe(gulp.dest(build_path))
+);
+gulp.task('minify', gulp.parallel('minify:css', 'minify:js'));
 
 /* Watch */
 /* ======================================================== */
@@ -204,7 +194,13 @@ gulp.task('version:update', () => {
 
 /* Theme */
 /* ======================================================== */
-gulp.task('theme:build', gulp.series('build', 'copy'));
+gulp.task('theme:build', (done) => {
+    if(!argv.minify) {
+        return gulp.series('build', 'copy')(done);
+    }else {
+        return gulp.series('build', 'copy', 'minify')(done);
+    }
+});
 gulp.task('theme:deploy', () => {
   let path = argv.path || dist_path;
 

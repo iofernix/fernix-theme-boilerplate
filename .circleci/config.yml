@@ -27,7 +27,7 @@ jobs:
 
             - run:
                 name: Building Theme
-                command: gulp theme:build
+                command: gulp theme:build --minify
 
             - persist_to_workspace:
                 root: ~/fernix-theme-boilerplate
@@ -43,8 +43,6 @@ jobs:
         executor: fnx
 
         steps:
-            - checkout
-
             - run:
                 name: Installing global dependencies
                 command: sudo npm install -g gulp-cli
@@ -87,7 +85,39 @@ jobs:
                     git diff-index --quiet HEAD || git commit -m "CircleCI Auto-Deploy
                     Build: ${COMMIT_BUILD_NUM}
                     Message: ${COMMIT_MESSAGE}"
-                    git push origin develop
+                    git push origin ${CIRCLE_BRANCH}
+
+    release:
+        executor: fnx
+
+        steps:
+            - run:
+                name: Installing global dependencies
+                command: sudo npm install -g gulp-cli
+
+            - attach_workspace:
+                at: ~/fernix-theme-boilerplate
+
+            - add_ssh_keys:
+                fingerprints:
+                    - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
+
+            - run:
+                name: Cloning WP Site
+                command: git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
+
+            - run:
+                name:  Deploying Theme
+                command: gulp theme:deploy --path ./release
+
+            - run:
+                name: Releasing Theme
+                command: |
+                    cd  ./release
+                    git checkout master
+                    git merge release/${CIRCLE_TAG} --no-ff
+                    git tag ${CIRCLE_TAG}
+                    git branch -d release/${CIRCLE_TAG}
 
 workflows:
     version: 2
@@ -99,9 +129,18 @@ workflows:
                         only:
                             - develop
                             - /feature\/.*/
+                            - /^release\/v[0-9]\.[0-9]\.[0-9]/
             - deploy:
                 requires:
                     - build
                 filters:
                     branches:
-                        only: develop
+                        only:
+                            - develop
+                            - /^release\/v[0-9]\.[0-9]\.[0-9]/
+            - release:
+                filters:
+                    tags:
+                        only: /v[0-9]\.[0-9]\.[0-9]/
+                    branches:
+                        ignore: /.*/
