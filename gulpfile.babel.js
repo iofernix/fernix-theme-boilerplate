@@ -2,7 +2,6 @@ import { argv } from 'yargs';
 
 import gulp from 'gulp';
 import autoprefixer from 'gulp-autoprefixer';
-import babelify from 'babelify';
 import browser from 'browser-sync';
 import browserify from 'browserify';
 import bump from 'gulp-bump';
@@ -12,16 +11,12 @@ import del from 'del';
 import dotenv from 'dotenv';
 import es from 'event-stream';
 import eslint from 'gulp-eslint';
-import folders from 'gulp-folders';
 import glob from 'glob';
-import image from 'gulp-image';
-import path from 'path';
 import pkg from './package.json';
 import rename from 'gulp-rename';
 import sass from 'gulp-sass';
 import sasslint from 'gulp-sass-lint';
 import source from 'vinyl-source-stream';
-import sprite from 'gulp.spritesmith';
 import uglify from 'gulp-uglify';
 
 browser.create();
@@ -122,29 +117,19 @@ gulp.task('lint:css', () =>
 );
 gulp.task('lint', gulp.series('lint:css', 'lint:js'));
 
-/* Release */
+/* Minify */
 /* ======================================================== */
-gulp.task('release:php', gulp.series('build:php',
-  () => gulp.src(build_path + '/**/*.php')
-        .pipe(gulp.dest(dist_path))
-));
-gulp.task('release:js', gulp.series('build:js',
-  () => gulp.src(build_path + '/scripts/**/*.js')
+gulp.task('minify:js', () =>
+    gulp.src(build_path + '/scripts/**/*.js')
         .pipe(uglify())
-        .pipe(rename({ extname: '.min.js' }))
-        .pipe(gulp.dest(dist_path  + '/scripts'))
-));
-gulp.task('release:images', gulp.series('copy:images',
-  () => gulp.src(build_path + '/**/*.{jpg,png,gif,svg}')
-        .pipe(gulp.dest(dist_path))
-));
-gulp.task('release:css', gulp.series('build:css',
-  () => gulp.src(build_path + '/**/*.css')
+        .pipe(gulp.dest(build_path  + '/scripts'))
+);
+gulp.task('minify:css', () =>
+    gulp.src(build_path + '/**/*.css')
         .pipe(cleancss())
-        .pipe(gulp.dest(dist_path))
-));
-gulp.task('release:clean', () => del(dist_path, { force: true }));
-gulp.task('release', gulp.series('release:clean', 'release:css', 'release:images', 'release:js', 'release:php'));
+        .pipe(gulp.dest(build_path))
+);
+gulp.task('minify', gulp.parallel('minify:css', 'minify:js'));
 
 /* Watch */
 /* ======================================================== */
@@ -209,11 +194,17 @@ gulp.task('version:update', () => {
 
 /* Theme */
 /* ======================================================== */
-gulp.task('theme:build', gulp.series('build', 'copy'));
+gulp.task('theme:build', (done) => {
+    if(!argv.minify) {
+        return gulp.series('build', 'copy')(done);
+    }else {
+        return gulp.series('build', 'copy', 'minify')(done);
+    }
+});
 gulp.task('theme:deploy', () => {
   let path = argv.path || dist_path;
 
-  del.sync(path + '/*', { force: true });
+  del.sync([path + '/*', '!' + path + '/.github/workflows'], { force: true });
 
   return gulp.src(build_path + '/**/*')
     .pipe(gulp.dest(path))

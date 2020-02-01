@@ -135,6 +135,7 @@ class Theme_Name {
 	 * @access   private
 	 */
 	private function define_admin_hooks() {
+
 			$theme_admin = new Theme_Name_Admin( $this->get_theme_name(), $this->get_theme_version() );
 
 			$this->loader->add_action( 'admin_enqueue_scripts', $theme_admin, 'enqueue_styles' );
@@ -191,11 +192,13 @@ class Theme_Name {
 	 * @return    mixed
 	 */
 	public static function get_instance() {
-		if ( !isset(self::$instance) ) {
-    	self::$instance = new Theme_Name();
-    }
 
-    return self::$instance;
+		if ( !isset(self::$instance) ) {
+    		self::$instance = new Theme_Name();
+    	}
+
+		return self::$instance;
+		
 	}
 
 	/**
