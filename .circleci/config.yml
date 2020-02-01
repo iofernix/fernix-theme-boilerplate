@@ -30,11 +30,9 @@ jobs:
                 command: gulp theme:build --minify
 
             - persist_to_workspace:
-                root: ~/fernix-theme-boilerplate
+                root: ${CIRCLE_WORKING_DIRECTORY}
                 paths:
-                    - .git
                     - build
-                    - package.json
 
             - save_cache:
                 paths:
@@ -46,13 +44,13 @@ jobs:
 
         steps:
             - checkout
-            
+
             - run:
                 name: Installing global dependencies
                 command: sudo npm install -g gulp-cli
 
             - attach_workspace:
-                at: ~/fernix-theme-boilerplate
+                at: ${CIRCLE_WORKING_DIRECTORY}
 
             - add_ssh_keys:
                 fingerprints:
@@ -100,7 +98,7 @@ jobs:
                 command: sudo npm install -g gulp-cli
 
             - attach_workspace:
-                at: ~/fernix-theme-boilerplate
+                at: ${CIRCLE_WORKING_DIRECTORY}
 
             - add_ssh_keys:
                 fingerprints:
