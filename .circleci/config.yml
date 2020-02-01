@@ -104,6 +104,12 @@ jobs:
                     - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
 
             - run:
+                name: Setup Environment Variables
+                command: |
+                    echo 'export USER_EMAIL="$(git log --format='%ae' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+                    echo 'export USER_NAME="$(git log --format='%an' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+
+            - run:
                 name: Cloning WP Site
                 command: git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
 
@@ -111,6 +117,8 @@ jobs:
                 name: Creating the release
                 command: |
                     cd  ./release
+                    git config user.email "${USER_EMAIL}"
+                    git config user.name "${USER_NAME}"
                     git checkout release/${CIRCLE_TAG}
                     git checkout master
                     git merge release/${CIRCLE_TAG} --no-ff
