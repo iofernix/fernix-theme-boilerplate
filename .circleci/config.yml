@@ -110,6 +110,11 @@ jobs:
                 fingerprints:
                     - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
 
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-
+
             - run:
                 name: Cloning WP Site
                 command: git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
