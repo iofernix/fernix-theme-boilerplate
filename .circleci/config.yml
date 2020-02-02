@@ -45,16 +45,16 @@ jobs:
         steps:
             - checkout
 
-            - run:
-                name: Installing global dependencies
-                command: sudo npm install -g gulp-cli
+            - add_ssh_keys:
+                fingerprints:
+                    - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
 
             - attach_workspace:
                 at: ~/fernix-theme-boilerplate
 
-            - add_ssh_keys:
-                fingerprints:
-                    - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
+            - run:
+                name: Installing global dependencies
+                command: sudo npm install -g gulp-cli
 
             - restore_cache:
                 keys:
@@ -103,15 +103,37 @@ jobs:
                 fingerprints:
                     - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
 
+            - attach_workspace:
+                at: ~/fernix-theme-boilerplate
+
+            - run:
+                name: Installing global dependencies
+                command: sudo npm install -g gulp-cli
+
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-
+
             - run:
                 name: Setup Environment Variables
                 command: |
                     echo 'export USER_EMAIL="$(git log --format='%ae' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
                     echo 'export USER_NAME="$(git log --format='%an' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+                    echo 'export COMMIT_BUILD_NUM="$(git log --format='%h' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
+                    echo 'export COMMIT_MESSAGE="$(git log --format='%s' -n 1 ${CIRCLE_SHA1})"' >> $BASH_ENV
 
             - run:
                 name: Cloning WP Site
-                command: git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
+                command: |
+                    git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
+                    cd ./release
+                    git checkout master
+
+            - run:
+                name:  Deploying Theme
+                command: |
+                    gulp theme:deploy --path ./release
 
             - run:
                 name: Creating the release
@@ -119,8 +141,12 @@ jobs:
                     cd  ./release
                     git config user.email "${USER_EMAIL}"
                     git config user.name "${USER_NAME}"
-                    git checkout master
+                    git commit -m "CircleCI Auto-Deploy
+                    Tag: ${CIRCLE_TAG}
+                    Build: ${COMMIT_BUILD_NUM}
+                    Message: ${COMMIT_MESSAGE}"
                     git tag ${CIRCLE_TAG}
+                    git push origin master
                     git push origin ${CIRCLE_TAG}
 
 workflows:
@@ -146,19 +172,13 @@ workflows:
         jobs:
             - build:
                 filters:
+                    tags:
+                        only: /v.*/
                     branches:
-                        only:
-                            - master
-            - deploy:
-                requires:
-                    - build
-                filters:
-                    branches:
-                        only:
-                            - master
+                        ignore: /.*/
             - release:
                 requires:
-                    - deploy
+                    - build
                 filters:
                     tags:
                         only: /v.*/
