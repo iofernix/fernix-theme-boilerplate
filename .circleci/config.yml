@@ -139,6 +139,7 @@ jobs:
                 name: Creating the release
                 command: |
                     cd  ./release
+                    git add --all
                     git config user.email "${USER_EMAIL}"
                     git config user.name "${USER_NAME}"
                     git diff-index --quiet HEAD || git commit -m "CircleCI Auto-Deploy
