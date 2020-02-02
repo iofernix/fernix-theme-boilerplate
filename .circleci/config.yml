@@ -91,7 +91,7 @@ jobs:
                     git diff-index --quiet HEAD || git commit -m "CircleCI Auto-Deploy
                     Build: ${COMMIT_BUILD_NUM}
                     Message: ${COMMIT_MESSAGE}"
-                    git push origin ${CIRCLE_BRANCH}
+                    git push origin ${CIRCLE_BRANCH} --force
 
     release:
         executor: fnx
