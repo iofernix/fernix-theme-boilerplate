@@ -141,7 +141,7 @@ jobs:
                     cd  ./release
                     git config user.email "${USER_EMAIL}"
                     git config user.name "${USER_NAME}"
-                    git commit -m "CircleCI Auto-Deploy
+                    git diff-index --quiet HEAD || git commit -m "CircleCI Auto-Deploy
                     Tag: ${CIRCLE_TAG}
                     Build: ${COMMIT_BUILD_NUM}
                     Message: ${COMMIT_MESSAGE}"
