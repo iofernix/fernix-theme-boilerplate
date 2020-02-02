@@ -149,6 +149,7 @@ jobs:
                     git tag ${CIRCLE_TAG}
                     git push origin master
                     git push origin ${CIRCLE_TAG}
+                    git push origin --delete release/${CIRCLE_TAG}
 
 workflows:
     version: 2
