@@ -180,20 +180,3 @@ workflows:
                         only: /v.*/
                     branches:
                         ignore: /.*/
-
-    # build_and_release:
-    #     jobs:
-    #         - build:
-    #             filters:
-    #                 tags:
-    #                     only: /v.*/
-    #                 branches:
-    #                     ignore: /.*/
-    #         - release:
-    #             requires:
-    #                 - build
-    #             filters:
-    #                 tags:
-    #                     only: /v.*/
-    #                 branches:
-    #                     ignore: /.*/
