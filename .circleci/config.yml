@@ -142,21 +142,23 @@ jobs:
                     git add --all
                     git config user.email "${USER_EMAIL}"
                     git config user.name "${USER_NAME}"
-                    git diff-index --quiet HEAD || git commit -m "CircleCI Auto-Deploy
+                    git diff-index --quiet HEAD || git commit -m "CircleCI Automatic Release
                     Tag: ${CIRCLE_TAG}
                     Build: ${COMMIT_BUILD_NUM}
                     Message: ${COMMIT_MESSAGE}"
                     git tag ${CIRCLE_TAG}
-                    git push origin master
+                    git push origin master --force
                     git push origin ${CIRCLE_TAG}
-                    git push origin --delete release/${CIRCLE_TAG}
+                    git show-ref --quiet refs/heads/release/${CIRCLE_TAG} || git push origin --delete release/${CIRCLE_TAG}
 
 workflows:
     version: 2
-    build_and_deploy:
+    build-deploy-and-release:
         jobs:
             - build:
                 filters:
+                    tags:
+                        only: /v.*/
                     branches:
                         only:
                             - develop
@@ -170,14 +172,6 @@ workflows:
                         only:
                             - develop
                             - /^release\/v.*/
-    release:
-        jobs:
-            - build:
-                filters:
-                    tags:
-                        only: /v.*/
-                    branches:
-                        ignore: /.*/
             - release:
                 requires:
                     - build
@@ -186,3 +180,20 @@ workflows:
                         only: /v.*/
                     branches:
                         ignore: /.*/
+
+    # build_and_release:
+    #     jobs:
+    #         - build:
+    #             filters:
+    #                 tags:
+    #                     only: /v.*/
+    #                 branches:
+    #                     ignore: /.*/
+    #         - release:
+    #             requires:
+    #                 - build
+    #             filters:
+    #                 tags:
+    #                     only: /v.*/
+    #                 branches:
+    #                     ignore: /.*/
