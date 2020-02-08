@@ -162,7 +162,9 @@ workflows:
                     branches:
                         only:
                             - develop
-                            - /feature\/.*/
+                            - /^bugfix\/.*/
+                            - /^feature\/.*/
+                            - /^hotfix\/v.*/
                             - /^release\/v.*/
             - deploy:
                 requires:
@@ -171,6 +173,7 @@ workflows:
                     branches:
                         only:
                             - develop
+                            - /^hotfix\/v.*/
                             - /^release\/v.*/
             - release:
                 requires:

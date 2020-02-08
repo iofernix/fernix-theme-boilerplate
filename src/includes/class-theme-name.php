@@ -1,4 +1,13 @@
 <?php
+/**
+ * Fernix Theme Boilerplate.
+ *
+ * @package     Theme_Name
+ * @author      Your Name
+ * @copyright   2020 Your Name or Company Name
+ * @license     GPL-3.0+
+ */
+
 namespace Theme_Namespace;
 
 /**
@@ -94,7 +103,7 @@ class Theme_Name {
 		$this->loader = new Theme_Name_Loader();
 
 		$theme_tgmpa = new Theme_Name_TGMPA();
-		$this->loader->add_action('tgmpa_register', $theme_tgmpa, 'required_plugins' );
+		$this->loader->add_action( 'tgmpa_register', $theme_tgmpa, 'required_plugins' );
 
 	}
 
@@ -106,14 +115,14 @@ class Theme_Name {
 	 */
 	private function set_data() {
 
-		$this->theme_data = wp_get_theme(THEME_DIR);
+		$this->theme_data = wp_get_theme( THEME_DIR );
 
 	}
 
 	/**
 	 * Define the locale for this theme for internationalization.
 	 *
-	 * Uses the Theme_Name_i18n class in order to set the domain and to register the hook
+	 * Uses the Theme_Name_I18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -121,7 +130,7 @@ class Theme_Name {
 	 */
 	private function set_locale() {
 
-		$theme_i18n = new Theme_Name_i18n();
+		$theme_i18n = new Theme_Name_I18n();
 
 		$this->loader->add_action( 'wp_loaded', $theme_i18n, 'load_theme_textdomain' );
 
@@ -193,12 +202,12 @@ class Theme_Name {
 	 */
 	public static function get_instance() {
 
-		if ( !isset(self::$instance) ) {
-    		self::$instance = new Theme_Name();
-    	}
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new Theme_Name();
+		}
 
 		return self::$instance;
-		
+
 	}
 
 	/**
@@ -234,7 +243,7 @@ class Theme_Name {
 	 */
 	public function get_theme_name() {
 
-		return $this->theme_data->get('Name');
+		return $this->theme_data->get( 'Name' );
 
 	}
 
@@ -246,7 +255,7 @@ class Theme_Name {
 	 */
 	public function get_theme_version() {
 
-		return $this->theme_data->get('Version');
+		return $this->theme_data->get( 'Version' );
 
 	}
 
