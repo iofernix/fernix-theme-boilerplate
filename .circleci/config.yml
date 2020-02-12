@@ -71,7 +71,9 @@ jobs:
             - run:
                 name: Cloning WP Site
                 command: |
-                    git clone -b ${CIRCLE_BRANCH} ${FNX_REMOTE_REPO} ./release
+                    git clone ${FNX_REMOTE_REPO} ./release
+                    cd  ./release
+                    git checkout -B ${CIRCLE_BRANCH}
 
             - run:
                 name:  Deploying Theme
