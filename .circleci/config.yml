@@ -4,6 +4,9 @@ executors:
         docker:
             - image: circleci/node:10.16
         working_directory: ~/fernix-theme-boilerplate
+        environment:
+            - FNX_REMOTE_REPO: git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git
+            - FNX_REMOTE_SSH_KEY: "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
 
 jobs:
     build:
@@ -27,7 +30,9 @@ jobs:
 
             - run:
                 name: Building Theme
-                command: gulp theme:build --minify
+                command: |
+                    echo ${CIRCLE_WORKING_DIRECTORY}
+                    gulp theme:build --minify
 
             - persist_to_workspace:
                 root: ~/fernix-theme-boilerplate
@@ -47,7 +52,7 @@ jobs:
 
             - add_ssh_keys:
                 fingerprints:
-                    - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
+                    - ${FNX_REMOTE_SSH_KEY}
 
             - attach_workspace:
                 at: ~/fernix-theme-boilerplate
@@ -72,9 +77,7 @@ jobs:
             - run:
                 name: Cloning WP Site
                 command: |
-                    git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
-                    cd ./release
-                    git checkout -B ${CIRCLE_BRANCH}
+                    git clone -b ${CIRCLE_BRANCH} ${FNX_REMOTE_REPO} ./release
 
             - run:
                 name:  Deploying Theme
@@ -101,7 +104,7 @@ jobs:
 
             - add_ssh_keys:
                 fingerprints:
-                    - "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
+                    - ${FNX_REMOTE_SSH_KEY}
 
             - attach_workspace:
                 at: ~/fernix-theme-boilerplate
@@ -126,9 +129,7 @@ jobs:
             - run:
                 name: Cloning WP Site
                 command: |
-                    git clone git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git ./release
-                    cd ./release
-                    git checkout master
+                    git clone -b master ${FNX_REMOTE_REPO} ./release
 
             - run:
                 name:  Deploying Theme
