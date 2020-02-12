@@ -83,6 +83,10 @@ gulp.task('build', gulp.series('build:clean', 'build:css', 'build:js', 'build:ph
 
 /* Copy */
 /* ======================================================== */
+gulp.task('copy:assets', () =>
+  gulp.src(['./src/**/*.{md,txt}'])
+    .pipe(gulp.dest(build_path))
+);
 gulp.task('copy:fonts', () =>
   gulp.src(['./src/**/*.{ttf}'])
     .pipe(gulp.dest(build_path + '/fonts'))
@@ -95,7 +99,7 @@ gulp.task('copy:plugins', () =>
   gulp.src('./src/plugins/**/*')
     .pipe(gulp.dest(build_path + '/plugins'))
 );
-gulp.task('copy', gulp.series('copy:fonts', 'copy:images', 'copy:plugins'));
+gulp.task('copy', gulp.series('copy:assets', 'copy:fonts', 'copy:images', 'copy:plugins'));
 
 /* Lint */
 /* ======================================================== */

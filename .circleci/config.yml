@@ -3,9 +3,6 @@ executors:
     fnx:
         docker:
             - image: circleci/node:10.16
-        # environment:
-        #     - FNX_REMOTE_REPO: git@github.com:fernando-vargas-fernix/fernix-theme-boilerplate.git
-        #     - FNX_REMOTE_SSH_KEY: "1a:b1:8a:a9:96:10:3d:89:49:d9:d8:f4:96:b5:63:d5"
 
 jobs:
     build:
