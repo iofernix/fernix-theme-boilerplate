@@ -30,12 +30,10 @@ jobs:
 
             - run:
                 name: Building Theme
-                command: |
-                    echo ${CIRCLE_WORKING_DIRECTORY}
-                    gulp theme:build --minify
+                command: gulp theme:build --minify
 
             - persist_to_workspace:
-                root: ${CIRCLE_WORKING_DIRECTORY}
+                root: ~/fernix-theme-boilerplate
                 paths:
                     - build
 
@@ -55,7 +53,7 @@ jobs:
                     - ${FNX_REMOTE_SSH_KEY}
 
             - attach_workspace:
-                at: ${CIRCLE_WORKING_DIRECTORY}
+                at: ~/fernix-theme-boilerplate
 
             - run:
                 name: Installing global dependencies
@@ -107,7 +105,7 @@ jobs:
                     - ${FNX_REMOTE_SSH_KEY}
 
             - attach_workspace:
-                at: ${CIRCLE_WORKING_DIRECTORY}
+                at: ~/fernix-theme-boilerplate
 
             - run:
                 name: Installing global dependencies
