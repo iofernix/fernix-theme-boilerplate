@@ -35,7 +35,7 @@ jobs:
                     gulp theme:build --minify
 
             - persist_to_workspace:
-                root: CIRCLE_WORKING_DIRECTORY
+                root: ${CIRCLE_WORKING_DIRECTORY}
                 paths:
                     - build
 
@@ -55,7 +55,7 @@ jobs:
                     - ${FNX_REMOTE_SSH_KEY}
 
             - attach_workspace:
-                at: CIRCLE_WORKING_DIRECTORY
+                at: ${CIRCLE_WORKING_DIRECTORY}
 
             - run:
                 name: Installing global dependencies
@@ -107,7 +107,7 @@ jobs:
                     - ${FNX_REMOTE_SSH_KEY}
 
             - attach_workspace:
-                at: CIRCLE_WORKING_DIRECTORY
+                at: ${CIRCLE_WORKING_DIRECTORY}
 
             - run:
                 name: Installing global dependencies
