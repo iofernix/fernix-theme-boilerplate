@@ -1,18 +1,14 @@
 <?php
-namespace Theme_Namespace;
-
 /**
- * Define the internationalization functionality
+ * Fernix Theme Boilerplate.
  *
- * Loads and defines the internationalization files for this theme
- * so that it is ready for translation.
- *
- * @link       http://example.com
- * @since      1.0.0
- *
- * @package    Theme_Name
- * @subpackage Theme_Name/includes
+ * @package     Theme_Name
+ * @author      Your Name
+ * @copyright   2020 Your Name or Company Name
+ * @license     GPL-3.0+
  */
+
+namespace Theme_Namespace;
 
 /**
  * Define the internationalization functionality.
@@ -25,16 +21,15 @@ namespace Theme_Namespace;
  * @subpackage Theme_Name/includes
  * @author     Your Name <email@example.com>
  */
-class Theme_Name_i18n {
+class Theme_Name_I18n {
 
 	/**
 	 * Load the theme text domain for translation.
 	 *
 	 * @since    1.0.0
 	 */
-	public function load_theme_textdomain()
-	{
-			load_theme_textdomain('fernix', get_template_directory() . '/languages');
+	public function load_theme_textdomain() {
+		load_theme_textdomain( 'fernix', get_template_directory() . '/languages' );
 	}
 
 }
