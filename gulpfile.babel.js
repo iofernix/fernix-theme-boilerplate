@@ -84,7 +84,7 @@ gulp.task('build', gulp.series('build:clean', 'build:css', 'build:js', 'build:ph
 /* Copy */
 /* ======================================================== */
 gulp.task('copy:assets', () =>
-  gulp.src(['./src/**/*.{md,txt}'])
+  gulp.src(['./src/LICENSE', './src/**/*.{md,txt}'])
     .pipe(gulp.dest(build_path))
 );
 gulp.task('copy:fonts', () =>
