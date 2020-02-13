@@ -8,20 +8,27 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Pre-requisites
 
+You must have already installed `npm` and `nvm` if you haven't you can follow these links to know how to do it.
+
+* Installing [nodejs](https://nodejs.org/en/download/package-manager/) via package manager.
+* Installing & Updating [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+Once you have `npm` and `nvm` installed on your machine, do:
+
+```
+nvm use && npm install
+```
+
 Create an environment variables `.env` file in the root directory. An example is available below.
 
-```yaml
+```
 BUILD_PATH=./build
 DIST_PATH=./dist
 ```
 
-```
-Give examples
-```
-
 ## Installation
 
-The Boilerplate can be installed directly into your themes folder "as-is". You will want to rename it and the classes inside of it to fit your needs. For example, if your theme is named 'my-theme' then:
+After you run `gulp theme:build` the boilerplate is installed directly into your themes folder "as-is". You must rename it and the classes inside of it to fit your needs. For example, if your theme is named 'my-theme' then:
 
 * rename files from `plugin-name` to `my-theme`
 * change `theme_name` to `my_theme`
@@ -31,37 +38,9 @@ The Boilerplate can be installed directly into your themes folder "as-is". You w
 
 It's safe to activate the theme at this point. Because the Boilerplate has no real functionality there will be no menu items, meta boxes, or custom post types added until you write the code.
 
-```
-Give the example
-```
+## Development
 
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
+To begin working on your project you only need run `gulp theme:build` to send the code changes to the build directory and test it, this is a manual task and you need run it every you do changes. Also, if you want you can run `gulp theme:watch` to watch code changes and send it to the build directory automatically every it happen.
 
 ## Deployment
 
@@ -73,19 +52,13 @@ Add additional notes about how to deploy this on a live system
 * [Maven](https://maven.apache.org/) - Dependency Management
 * [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://bitbucket.org/iofernix/fernix-theme-boilerplate/downloads/?tab=tags).
 
 ## Authors
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+* **Fernando Vargas** - *Initial work*
 
 ## License
 
