@@ -26,11 +26,15 @@ BUILD_PATH=./build
 DIST_PATH=./dist
 ```
 
+## CI/CD
+
+We are using CircleCI as our continuous integration service 
+
 ## Installation
 
 After run `gulp theme:build` the boilerplate is installed directly into your themes folder "as-is". You must rename it and the classes inside of it to fit your needs. For example, if your theme is named 'my-theme' then:
 
-* rename files from `plugin-name` to `my-theme`
+* rename files from `theme-name` to `my-theme`
 * change `theme_name` to `my_theme`
 * change `theme-name` to `my-theme`
 * change `Theme_Name` to `My_Theme`
@@ -45,12 +49,6 @@ To begin working on your project run `gulp theme:build` to send the code changes
 ## Deployment
 
 Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 ## Versioning
 
