@@ -28,7 +28,7 @@ DIST_PATH=./dist
 
 ## Installation
 
-After you run `gulp theme:build` the boilerplate is installed directly into your themes folder "as-is". You must rename it and the classes inside of it to fit your needs. For example, if your theme is named 'my-theme' then:
+After run `gulp theme:build` the boilerplate is installed directly into your themes folder "as-is". You must rename it and the classes inside of it to fit your needs. For example, if your theme is named 'my-theme' then:
 
 * rename files from `plugin-name` to `my-theme`
 * change `theme_name` to `my_theme`
@@ -40,7 +40,7 @@ It's safe to activate the theme at this point. Because the Boilerplate has no re
 
 ## Development
 
-To begin working on your project you only need run `gulp theme:build` to send the code changes to the build directory and test it, this is a manual task and you need run it every you do changes. Also, if you want you can run `gulp theme:watch` to watch code changes and send it to the build directory automatically every it happen.
+To begin working on your project run `gulp theme:build` to send the code changes to the build directory, this is a manual task and you need to run it every you do changes. Also, if you want you can run `gulp theme:watch` to watch code changes and send it to the build directory automatically every a change happens.
 
 ## Deployment
 
