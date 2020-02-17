@@ -1,12 +1,8 @@
 version: 2.1
-executors:
-    fnx:
-        docker:
-            - image: circleci/node:10.16
-
 jobs:
     build:
-        executor: fnx
+        docker:
+            - image: circleci/node:10.16
 
         steps:
             - checkout
@@ -39,7 +35,8 @@ jobs:
                 key: v1-dependencies-{{ checksum "package.json" }}
 
     deploy:
-        executor: fnx
+        docker:
+            - image: circleci/node:10.16
 
         steps:
             - checkout
@@ -92,36 +89,9 @@ jobs:
                     Message: ${COMMIT_MESSAGE}"
                     git push origin ${CIRCLE_BRANCH} --force
 
-    # test-js:
-    # test-css:
-    test-php:
-        docker:
-            - image: circleci/php:7.2-node-browsers
-        steps:
-            - checkout
-
-            - run:
-                name: Install Composer
-                command: |
-                    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-                    php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer invalid'; unlink('composer-setup.php'); } echo PHP_EOL;"
-                    php composer-setup.php
-                    php -r "unlink('composer-setup.php');"
-
-            - run:
-                name: Installing project dependencies
-                command: |
-                    php composer.phar require "squizlabs/php_codesniffer=*"
-                    php composer.phar create-project wp-coding-standards/wpcs --no-dev
-
-            - run:
-                name: Setting Up & Running PHPCS
-                command: |
-                    ./vendor/bin/phpcs --config-set installed_paths wpcs
-                    ./vendor/bin/phpcs --extensions=php --ignore=vendors --standard=WordPress src
-
     release:
-        executor: fnx
+        docker:
+            - image: circleci/node:10.16
 
         steps:
             - checkout
@@ -176,10 +146,103 @@ jobs:
                     git push origin ${CIRCLE_TAG}
                     git show-ref --quiet refs/heads/release/${CIRCLE_TAG} || git push origin --delete release/${CIRCLE_TAG}
 
+    test-js:
+        docker:
+            - image: circleci/node:10.16
+
+        steps:
+            - checkout
+
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-
+
+            - run:
+                name: Installing global dependencies
+                command: sudo npm install -g gulp-cli
+
+            - run:
+                name: Installing local dependencies
+                command: npm install
+
+            - run:
+                name: Testing JavaScript
+                command: gulp lint:js
+
+    test-css:
+        docker:
+            - image: circleci/node:10.16
+
+        steps:
+            - checkout
+
+            - restore_cache:
+                keys:
+                    - v1-dependencies-{{ checksum "package.json" }}
+                    - v1-dependencies-
+
+            - run:
+                name: Installing global dependencies
+                command: sudo npm install -g gulp-cli
+
+            - run:
+                name: Installing local dependencies
+                command: npm install
+
+            - run:
+                name: Testing JavaScript
+                command: gulp lint:css
+
+    test-php:
+        docker:
+            - image: circleci/php:7.2-node-browsers
+
+        steps:
+            - checkout
+
+            - run:
+                name: Install Composer
+                command: |
+                    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+                    php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer invalid'; unlink('composer-setup.php'); } echo PHP_EOL;"
+                    php composer-setup.php
+                    php -r "unlink('composer-setup.php');"
+
+            - run:
+                name: Installing project dependencies
+                command: |
+                    php composer.phar require "squizlabs/php_codesniffer=*"
+                    php composer.phar create-project wp-coding-standards/wpcs --no-dev
+
+            - run:
+                name: Setting Up & Running PHPCS
+                command: |
+                    ./vendor/bin/phpcs --config-set installed_paths wpcs
+                    ./vendor/bin/phpcs --extensions=php --ignore=vendors --standard=WordPress src
+
 workflows:
     version: 2
-    build-test-and-deploy:
+    test-build-and-deploy:
         jobs:
+            - test-js:
+                filters:
+                    branches:
+                        only:
+                            - develop
+                            - /^bugfix\/.*/
+                            - /^feature\/.*/
+                            - /^hotfix\/v.*/
+                            - /^release\/v.*/
+            - test-css:
+                filters:
+                    branches:
+                        only:
+                            - develop
+                            - /^bugfix\/.*/
+                            - /^feature\/.*/
+                            - /^hotfix\/v.*/
+                            - /^release\/v.*/
             - test-php:
                 filters:
                     branches:
@@ -191,6 +254,8 @@ workflows:
                             - /^release\/v.*/
             - build:
                 requires:
+                    - test-js
+                    - test-css
                     - test-php
                 filters:
                     branches:
