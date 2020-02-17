@@ -105,7 +105,6 @@ jobs:
                 command: |
                     curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
                     git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git wpcs
-                    php phpcs.phar  --config-set installed_paths wpcs
                     php phpcs.phar --extensions=php --ignore=vendors --standard=WordPress src
 
     release:
@@ -166,7 +165,7 @@ jobs:
 
 workflows:
     version: 2
-    build-deploy-and-release:
+    build-test-and-deploy:
         jobs:
             - test-php:
                 filters:
@@ -181,8 +180,6 @@ workflows:
                 requires:
                     - test-php
                 filters:
-                    tags:
-                        only: /v.*/
                     branches:
                         only:
                             - develop
@@ -199,11 +196,19 @@ workflows:
                             - develop
                             - /^hotfix\/v.*/
                             - /^release\/v.*/
-            - release:
-                requires:
-                    - build
-                filters:
-                    tags:
-                        only: /v.*/
-                    branches:
-                        ignore: /.*/
+    build-and-release:
+        - build:
+            filters:
+                tags:
+                    only: /v.*/
+                branches:
+                    ignore: /.*/
+
+        - release:
+            requires:
+                - build
+            filters:
+                tags:
+                    only: /v.*/
+                branches:
+                    ignore: /.*/
