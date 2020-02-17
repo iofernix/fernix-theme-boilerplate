@@ -6,14 +6,6 @@
  * @author      Your Name
  * @copyright   2020 Your Name or Company Name
  * @license     GPL-3.0+
- *
- * @wordpress-theme
- * Theme Name: Fernix Theme Boilerplate
- * Theme URI: http://www.fernix.org/themes/fernix
- * Description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis quas laudantium consequuntur numquam architecto vero illo quae molestiae asperiores animi amet tempore at doloribus, suscipit aspernatur doloremque, enim explicabo voluptate.
- * Author: IO Fernix SRL
- * Author URI: http://www.fernix.io/
- * Version: 0.0.19
  */
 
 use Theme_Namespace\Theme_Name;
