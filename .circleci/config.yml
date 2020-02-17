@@ -101,11 +101,24 @@ jobs:
             - checkout
 
             - run:
+                name: Install Composer
+                command: |
+                    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+                    php -r "if (hash_file('SHA384', 'composer-setup.php') === trim(file_get_contents('https://composer.github.io/installer.sig'))) { echo 'Installer verified'; } else { echo 'Installer invalid'; unlink('composer-setup.php'); } echo PHP_EOL;"
+                    php composer-setup.php
+                    php -r "unlink('composer-setup.php');"
+
+            - run:
                 name: Installing project dependencies
                 command: |
-                    curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-                    git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git wpcs
-                    php phpcs.phar --extensions=php --ignore=vendors --standard=WordPress src
+                    php composer.phar require "squizlabs/php_codesniffer=*"
+                    php composer.phar create-project wp-coding-standards/wpcs --no-dev
+
+            - run:
+                name: Setting Up & Running PHPCS
+                command: |
+                    ./vendor/bin/phpcs --config-set installed_paths wpcs
+                    ./vendor/bin/phpcs --extensions=php --ignore=vendors --standard=WordPress src
 
     release:
         executor: fnx
