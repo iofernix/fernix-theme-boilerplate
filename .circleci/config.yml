@@ -197,18 +197,19 @@ workflows:
                             - /^hotfix\/v.*/
                             - /^release\/v.*/
     build-and-release:
-        - build:
-            filters:
-                tags:
-                    only: /v.*/
-                branches:
-                    ignore: /.*/
+        jobs:
+            - build:
+                filters:
+                    tags:
+                        only: /v.*/
+                    branches:
+                        ignore: /.*/
 
-        - release:
-            requires:
-                - build
-            filters:
-                tags:
-                    only: /v.*/
-                branches:
-                    ignore: /.*/
+            - release:
+                requires:
+                    - build
+                filters:
+                    tags:
+                        only: /v.*/
+                    branches:
+                        ignore: /.*/
