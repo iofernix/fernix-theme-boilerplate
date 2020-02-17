@@ -24,11 +24,24 @@ Create an environment variables `.env` file in the root directory. An example is
 ```
 BUILD_PATH=./build
 DIST_PATH=./dist
+PHPCS_PATH=./phpcs
 ```
 
 ## CI/CD
 
-We are using CircleCI as our continuous integration service 
+We are using CircleCI as our continuous integration service and to setting up a project you need to do the following:
+
+* Login into CircleCI Business account and go to **Add projects** page.
+* Search by project repository and click **Set Up Project** and next **Start Building**.
+* In a terminal, generate the key with `ssh-keygen -m PEM -t rsa -C "your_email@example.com"`.
+* In the CircleCI application, go to your project’s settings by clicking the gear icon next to your project.
+* In the Permissions section, click on SSH Permissions.
+* Click the Add SSH Key button.
+* In the Hostname field, enter the key’s associated host (for example, “github.com”). If you don’t specify a hostname, the key will be used for all hosts.
+* In the Private Key field, paste the SSH key you are adding.
+* Click the Add SSH Key button.
+* Copy the Fingerprint and paste it on CircleCI as new environment variable with the name **FNX_REMOTE_SSH_KEY**.
+* Add a new environment variable with the name **FNX_REMOTE_REPO**.
 
 ## Installation
 
@@ -48,7 +61,16 @@ To begin working on your project run `gulp theme:build` to send the code changes
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+Before to deploy your code to the different environments you need to have the following set up:
+
+* Add a new project subdomain in **Plesk Business Account** using the naming convention `dev-{project-name}.fernix.org`.
+* Install a new empty WordPress site.
+* Create a private repository in GitHub Business Account based on [fernix-template-repository](https://github.com/fernando-vargas-fernix/fernix-template-repository) with the same name as Bitbucket repository is.
+* Go to the project's domain and under git section add the new repository with ssh.
+* Copy and paste the ssh key provided by Plesk to **SSH and GPG keys** page on your GitHub profile.
+* As a suggestion, you can use **Plesk Auto-Deploy [project-domain]** as the key title.
+* If you get the key is already used error, check if the key is set globally.
+* In Plesk Account change the target directory where the code will be deployed as well as the branch.
 
 ## Versioning
 

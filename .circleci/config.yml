@@ -92,6 +92,22 @@ jobs:
                     Message: ${COMMIT_MESSAGE}"
                     git push origin ${CIRCLE_BRANCH} --force
 
+    # test-js:
+    # test-css:
+    test-php:
+        docker:
+            - image: circleci/php:7.2-node-browsers
+        steps:
+            - checkout
+
+            - run:
+                name: Installing project dependencies
+                command: |
+                    curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+                    git clone -b master https://github.com/WordPress/WordPress-Coding-Standards.git wpcs
+                    php phpcs.phar  --config-set installed_paths wpcs
+                    php phpcs.phar --extensions=php --ignore=vendors --standard=WordPress src
+
     release:
         executor: fnx
 
@@ -152,7 +168,18 @@ workflows:
     version: 2
     build-deploy-and-release:
         jobs:
+            - test-php:
+                filters:
+                    branches:
+                        only:
+                            - develop
+                            - /^bugfix\/.*/
+                            - /^feature\/.*/
+                            - /^hotfix\/v.*/
+                            - /^release\/v.*/
             - build:
+                requires:
+                    - test-php
                 filters:
                     tags:
                         only: /v.*/
