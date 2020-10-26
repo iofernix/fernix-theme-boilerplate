@@ -14,7 +14,7 @@
     "homepage": "https://bitbucket.org/iofernix/fernix-theme-boilerplate",
     "type": "wordpress-theme",
     "require": {
-        "php": "≥7.1"
+        "php": ">=7.1"
     },
     "license": "MIT"
 }
