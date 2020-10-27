@@ -1,0 +1,20 @@
+{
+    "name": "fernix/fernix-theme-boilerplate",
+    "description": "",
+    "keywords": [
+        "wordpress",
+        "theme"
+    ],
+    "authors": [
+        {
+            "name": "Fernando Vargas",
+            "email": "fernando.vargas@fernix.io"
+        }
+    ],
+    "homepage": "https://bitbucket.org/iofernix/fernix-theme-boilerplate",
+    "type": "wordpress-theme",
+    "require": {
+        "composer/installers": "~1.0"
+    },
+    "license": "MIT"
+}
