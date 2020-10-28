@@ -24,7 +24,7 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": false,
+    "prefer-stable": true,
     "config": {
         "vendor-dir": "src/vendor"
     },
