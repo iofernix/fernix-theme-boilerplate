@@ -4,24 +4,23 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d342e1a539a0fd4a4d193d33a175a139",
+    "content-hash": "82afc9961b65c97b9746104a20ff103e",
     "packages": [],
     "packages-dev": [
         {
             "name": "fernix/fernix-theme-bootstrap",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/iofernix/fernix-theme-bootstrap.git",
-                "reference": "2e29de9cb0bfacf507cafa1cc4fe81e426432b0c"
+                "reference": "85675f521b5ffe9119704827b79031a7ea6c8d8a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/iofernix/fernix-theme-bootstrap/zipball/2e29de9cb0bfacf507cafa1cc4fe81e426432b0c",
-                "reference": "2e29de9cb0bfacf507cafa1cc4fe81e426432b0c",
+                "url": "https://api.github.com/repos/iofernix/fernix-theme-bootstrap/zipball/85675f521b5ffe9119704827b79031a7ea6c8d8a",
+                "reference": "85675f521b5ffe9119704827b79031a7ea6c8d8a",
                 "shasum": ""
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -40,16 +39,14 @@
             ],
             "support": {
                 "issues": "https://github.com/iofernix/fernix-theme-bootstrap/issues",
-                "source": "https://github.com/iofernix/fernix-theme-bootstrap/tree/master"
+                "source": "https://github.com/iofernix/fernix-theme-bootstrap/tree/1.0.0"
             },
-            "time": "2020-10-28T06:28:47+00:00"
+            "time": "2020-10-28T06:39:57+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "fernix/fernix-theme-bootstrap": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
