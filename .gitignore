@@ -44,4 +44,4 @@ dist
 node_modules
 package-lock.json
 
-/vendor/
+/src/vendor/
