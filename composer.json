@@ -16,7 +16,7 @@
         }
     ],
     "require-dev": {
-        "fernix/fernix-theme-bootstrap": "9999999-dev"
+        "fernix/fernix-theme-bootstrap": "^1.0"
     },
     "autoload": {
         "psr-4": {
