@@ -1,20 +1,39 @@
 {
-    "name": "fernix/fernix-theme-boilerplate",
+    "name": "fernix/fernix-theme",
     "description": "",
+    "version": "1.0.0",
+    "type": "project",
     "keywords": [
         "wordpress",
         "theme"
     ],
+    "homepage": "https://github.com/iofernix/fernix-theme-boilerplate",
+    "license": "MIT",
     "authors": [
         {
             "name": "Fernando Vargas",
             "email": "fernando.vargas@fernix.io"
         }
     ],
-    "homepage": "https://bitbucket.org/iofernix/fernix-theme-boilerplate",
-    "type": "wordpress-theme",
-    "require": {
-        "composer/installers": "~1.0"
+    "require-dev": {
+        "fernix/fernix-theme-bootstrap": "9999999-dev"
     },
-    "license": "MIT"
+    "autoload": {
+        "psr-4": {
+            "Theme_Namespace\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "vendor-dir": "src/vendor"
+    },
+    "scripts": {
+        "pre-autoload-dump": [
+            "Support\\Composer::preAutoloadDump"
+        ],
+        "post-create-project-cmd": [
+            "Support\\Composer::postCreateProject"
+        ]
+    }
 }
