@@ -16,7 +16,7 @@
         }
     ],
     "require-dev": {
-        "fernix/fernix-theme-bootstrap": "^1.0"
+        "fernix/fernix-theme-bootstrap": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -29,8 +29,8 @@
         "vendor-dir": "src/vendor"
     },
     "scripts": {
-        "pre-autoload-dump": [
-            "Support\\Composer::preAutoloadDump"
+        "post-update-cmd": [
+            "Support\\Composer::postUpdateCMD"
         ],
         "post-create-project-cmd": [
             "Support\\Composer::postCreateProject"
