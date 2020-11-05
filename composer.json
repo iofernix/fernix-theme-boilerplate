@@ -16,7 +16,7 @@
         }
     ],
     "require-dev": {
-        "fernix/fernix-theme-bootstrap": "dev-master"
+        "fernix/fernix-theme-bootstrap": "dev-develop"
     },
     "autoload": {
         "psr-4": {
