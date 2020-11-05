@@ -29,11 +29,12 @@
         "vendor-dir": "src/vendor"
     },
     "scripts": {
-        "post-update-cmd": [
-            "Support\\Composer::postUpdateCMD"
-        ],
         "post-create-project-cmd": [
             "Support\\Composer::postCreateProject"
+        ],
+        "wp-install": [
+            "echo Installing WordPress...",
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ]
     }
 }
