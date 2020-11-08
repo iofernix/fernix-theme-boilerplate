@@ -30,11 +30,11 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "Support\\Composer::postCreateProject"
+            "Support\\Composer::postCreateProject",
+            "composer dump-autoload"
         ],
         "wp-install": [
-            "echo Installing WordPress...",
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "Support\\Composer::wpInstall"
         ]
     }
 }
