@@ -16,7 +16,7 @@
         }
     ],
     "require-dev": {
-        "fernix/wordpress-cli-composer": "dev-develop"
+        "fernix/wordpress-cli": "dev-develop"
     },
     "autoload": {
         "psr-4": {
