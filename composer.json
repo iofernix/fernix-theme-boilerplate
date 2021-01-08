@@ -1,5 +1,5 @@
 {
-    "name": "fernix/fernix-theme",
+    "name": "fernix/wordpress-theme",
     "description": "",
     "version": "1.0.0",
     "type": "project",
@@ -7,7 +7,7 @@
         "wordpress",
         "theme"
     ],
-    "homepage": "https://github.com/iofernix/fernix-theme-boilerplate",
+    "homepage": "https://github.com/iofernix/wordpress-theme",
     "license": "MIT",
     "authors": [
         {
@@ -16,7 +16,7 @@
         }
     ],
     "require-dev": {
-        "fernix/fernix-theme-bootstrap": "dev-develop"
+        "fernix/wordpress-cli-composer": "dev-develop"
     },
     "autoload": {
         "psr-4": {
@@ -30,11 +30,11 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "Support\\Composer::postCreateProject",
+            "Fernix\\WordPress\\Theme\\Bootstrap::postCreateProject",
             "composer dump-autoload"
         ],
         "wp-install": [
-            "Support\\Composer::wpInstall"
+            "Fernix\\WordPress\\WP::install"
         ]
     }
 }

@@ -1,4 +1,4 @@
-# WordPress Theme Boilerplate
+# Fernix Theme Boilerplate
 
 A standardized, organized, object-oriented foundation for building high-quality WordPress Plugins.
 
