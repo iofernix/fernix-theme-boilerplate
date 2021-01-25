@@ -21,8 +21,7 @@ import uglify from 'gulp-uglify';
 
 dotenv.config();
 
-const build_path = process.env.BUILD_PATH || './build';
-const dist_path = process.env.DIST_PATH || './dist';
+const build_path = process.env.THEME_PATH || './build';
 const phpcs_path = process.env.PHPCS_PATH || './phpcs';
 
 const versioning_files = [
@@ -120,7 +119,7 @@ gulp.task('lint:css', () =>
     .pipe(sasslint.failOnError())
 );
 gulp.task('lint:php', function () {
-    return gulp.src(['src/**/*.php', '!src/vendors/**/*'])
+    return gulp.src(['src/**/*.php', '!src/vendor/**/*'])
         .pipe(phpcs({
             bin: phpcs_path,
             standard: 'WordPress'
@@ -189,7 +188,7 @@ gulp.task('theme:build', (done) => {
     }
 });
 gulp.task('theme:deploy', () => {
-  let path = argv.path || dist_path;
+  let path = argv.path || './dist';
 
   del.sync([path + '/*', '!' + path + '/.github/workflows'], { force: true });
 
