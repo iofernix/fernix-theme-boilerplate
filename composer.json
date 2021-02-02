@@ -1,6 +1,7 @@
 {
-    "name": "fernix/test",
+    "name": "fernix/wordpress-theme",
     "description": "",
+    "type": "project",
     "license": "MIT",
     "authors": [
         {
