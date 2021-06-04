@@ -24,20 +24,23 @@
         "composer/installers": "^1.10",
         "fernix/wordpress-theme-boilerplate": "dev-develop"
     },
+    "scripts": {
+        "remove-git-submodules": "find . -mindepth 2 -type d -name .git | xargs rm -rf",
+        "rename-theme-composer": "find . -mindepth 2 -type f -name .composer.json | xargs dirname | xargs -I {} mv -f {}/.composer.json {}/composer.json",
+        "post-install-cmd": [
+            "Fernix\\Script\\Bootstrap::init",
+            "@remove-git-submodules",
+            "@rename-theme-composer"
+        ],
+        "post-update-cmd": [
+            "Fernix\\Script\\Bootstrap::init",
+            "@remove-git-submodules",
+            "@rename-theme-composer"
+        ]
+    },
     "extra": {
         "installer-paths": {
             "{theme-name}": ["fernix/wordpress-theme-boilerplate"]
         }
-    },
-    "scripts": {
-        "remove-git-submodules": "find . -mindepth 2 -type d -name .git | xargs rm -rf",
-        "post-install-cmd": [
-            "Fernix\\Script\\Bootstrap::init",
-            "@remove-git-submodules"
-        ],
-        "post-update-cmd": [
-            "Fernix\\Script\\Bootstrap::init",
-            "@remove-git-submodules"
-        ]
     }
 }
